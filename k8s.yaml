@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-java-app-deployment
+  labels:
+    app: test-java-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-java-app
+  template:
+    metadata:
+      labels:
+        app: test-java-app
+    spec:
+      containers:
+      - name: test-java-app
+        image: test-java-app
+        env:
+          - name: VERSION
+            value: v1.0
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: MY_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+  
